@@ -846,6 +846,172 @@ static int	test_ft_strrchr(void)
 	return (0);
 }
 
+static int	test_ft_strstr(void)
+{
+	char	*strsrc;
+	char	*res1;
+	char	*res2;
+
+	// Test 1
+	strsrc = strdup("Voici une chaine");
+	res1 = ft_strstr(strsrc, "une");
+	res2 = strstr(strsrc, "une");
+	if (res1 != res2)
+		return (1);
+	free(strsrc);
+
+	// Test 2
+	strsrc = strdup("Voici une chaine");
+	res1 = ft_strstr(strsrc, "");
+	res2 = strstr(strsrc, "");
+	if (res1 != res2)
+		return (2);
+	free(strsrc);
+
+	// Test 3
+	strsrc = strdup("Voici une chaine");
+	res1 = ft_strstr(strsrc, "unec");
+	res2 = strstr(strsrc, "unec");
+	if (res1 != res2)
+		return (3);
+	free(strsrc);
+
+	// Test 4
+	strsrc = strdup("");
+	res1 = ft_strstr(strsrc, "unec");
+	res2 = strstr(strsrc, "unec");
+	if (res1 != res2)
+		return (4);
+	free(strsrc);
+
+	// Test 5
+	strsrc = strdup("UNECNUNECNE");
+	res1 = ft_strstr(strsrc, "UNECNE");
+	res2 = strstr(strsrc, "UNECNE");
+	if (res1 != res2)
+		return (5);
+	free(strsrc);
+
+	// Test 6
+	strsrc = strdup("unec");
+	res1 = ft_strstr(strsrc, "unec");
+	res2 = strstr(strsrc, "unec");
+	if (res1 != res2)
+		return (6);
+	free(strsrc);
+
+	return (0);
+}
+
+static int	test_ft_strnstr(void)
+{
+	char	*strsrc;
+	char	*res1;
+	char	*res2;
+
+	// Test 1
+	strsrc = strdup("Voici une chaine");
+	res1 = ft_strnstr(strsrc, "une", 99);
+	res2 = strnstr(strsrc, "une", 99);
+	if (res1 != res2)
+		return (1);
+	free(strsrc);
+
+	// Test 2
+	strsrc = strdup("Voici une chaine");
+	res1 = ft_strnstr(strsrc, "une", 8);
+	res2 = strnstr(strsrc, "une", 8);
+	if (res1 != res2)
+		return (2);
+	free(strsrc);
+
+	// Test 3
+	strsrc = strdup("voici");
+	res1 = ft_strnstr(strsrc, "voici", 5);
+	res2 = strnstr(strsrc, "voici", 5);
+	if (res1 != res2)
+		return (3);
+	free(strsrc);
+
+	// Test 4
+	strsrc = strdup("");
+	res1 = ft_strnstr(strsrc, "une", 3);
+	res2 = strnstr(strsrc, "une", 3);
+	if (res1 != res2)
+		return (4);
+	free(strsrc);
+
+	// Test 5
+	strsrc = strdup("Voici unxe chaine");
+	res1 = ft_strnstr(strsrc, "une", 99);
+	res2 = strnstr(strsrc, "une", 99);
+	if (res1 != res2)
+		return (5);
+	free(strsrc);
+
+	return (0);
+}
+
+static int	test_ft_strncmp(void)
+{
+	char	*str1;
+	char	*str2;
+	int		res1;
+	int		res2;
+
+	// Test 1
+	str1 = strdup("Chaine identique");
+	str2 = strdup(str1);
+	res1 = ft_strncmp(str1, str2, 5);
+	res2 = strncmp(str1, str2, 5);
+	if (res1 != res2)
+		return (1);
+	free(str1);
+	free(str2);
+
+	// Test 2
+	str1 = strdup("Chaine identique");
+	str2 = strdup(str1);
+	res1 = ft_strncmp(str1, str2, 99);
+	res2 = strncmp(str1, str2, 99);
+	if (res1 != res2)
+		return (2);
+	free(str1);
+	free(str2);
+
+	// Test 3
+	str1 = strdup("Chaine differente");
+	str2 = strdup("Chaine differrente");
+	res1 = ft_strncmp(str1, str2, 5);
+	res2 = strncmp(str1, str2, 5);
+	if (res1 != res2)
+		return (3);
+	free(str1);
+	free(str2);
+
+	// Test 4
+	str1 = strdup("Chaine differente");
+	str2 = strdup("Chaine differrente");
+	res1 = ft_strncmp(str1, str2, 99);
+	res2 = strncmp(str1, str2, 99);
+	if (res1 != res2)
+		return (4);
+	free(str1);
+	free(str2);
+
+	// Test 5
+	str1 = strdup("Chaine differente");
+	str2 = strdup("Chaine differrente");
+	res1 = ft_strncmp(str1, str2, 0);
+	res2 = strncmp(str1, str2, 0);
+	if (res1 != res2)
+		return (3);
+	free(str1);
+	free(str2);
+
+	return (0);
+}
+
 void	register_tests(void)
 {
 	int i;
@@ -914,6 +1080,18 @@ void	register_tests(void)
 
 	g_tests[i].name = strdup("ft_strrchr");
 	g_tests[i].f = &test_ft_strrchr;
+	i++;
+
+	g_tests[i].name = strdup("ft_strstr");
+	g_tests[i].f = &test_ft_strstr;
+	i++;
+
+	g_tests[i].name = strdup("ft_strnstr");
+	g_tests[i].f = &test_ft_strnstr;
+	i++;
+
+	g_tests[i].name = strdup("ft_strncmp");
+	g_tests[i].f = &test_ft_strncmp;
 	i++;
 
 	g_tests[i].name = NULL;
