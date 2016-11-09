@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
+#include <limits.h>
 #include "tests.h"
 #include "constants.h"
 #include "../libft-github/libft.h"
@@ -952,6 +954,46 @@ static int	test_ft_strnstr(void)
 	return (0);
 }
 
+static int	test_ft_strcmp(void)
+{
+	char	*str1;
+	char	*str2;
+	int		res1;
+	int		res2;
+
+	// Test 1
+	str1 = strdup("Chaine identique");
+	str2 = strdup(str1);
+	res1 = ft_strcmp(str1, str2);
+	res2 = strcmp(str1, str2);
+	if (res1 != res2)
+		return (1);
+	free(str1);
+	free(str2);
+
+	// Test 2
+	str1 = strdup("Chaine differente");
+	str2 = strdup("Chaine diferrente");
+	res1 = ft_strcmp(str1, str2);
+	res2 = strcmp(str1, str2);
+	if (res1 != res2)
+		return (2);
+	free(str1);
+	free(str2);
+
+	// Test 3
+	str1 = strdup("");
+	str2 = strdup("");
+	res1 = ft_strcmp(str1, str2);
+	res2 = strcmp(str1, str2);
+	if (res1 != res2)
+		return (3);
+	free(str1);
+	free(str2);
+
+	return (0);
+}
+
 static int	test_ft_strncmp(void)
 {
 	char	*str1;
@@ -1008,6 +1050,551 @@ static int	test_ft_strncmp(void)
 		return (3);
 	free(str1);
 	free(str2);
+
+	return (0);
+}
+
+static int	test_ft_atoi(void)
+{
+	char	*src;
+	int		res1;
+	int		res2;
+
+	// Test 1
+	src = strdup("   -85 51");
+	res1 = ft_atoi(src);
+	res2 = atoi(src);
+	if (res1 != res2)
+		return (1);
+	free(src);
+
+	// Test 2
+	src = strdup("hello45world");
+	res1 = ft_atoi(src);
+	res2 = atoi(src);
+	if (res1 != res2)
+		return (2);
+	free(src);
+
+	// Test 3
+	src = strdup("4-1");
+	res1 = ft_atoi(src);
+	res2 = atoi(src);
+	if (res1 != res2)
+		return (3);
+	free(src);
+
+	// Test 4
+	src = strdup("+857");
+	res1 = ft_atoi(src);
+	res2 = atoi(src);
+	if (res1 != res2)
+		return (4);
+	free(src);
+
+	// Test 5
+	src = strdup("2147483647");
+	res1 = ft_atoi(src);
+	res2 = atoi(src);
+	if (res1 != res2)
+		return (5);
+
+	// Test 6
+	src = strdup("-2147483648");
+	res1 = ft_atoi(src);
+	res2 = atoi(src);
+	if (res1 != res2)
+		return (6);
+
+	// Test 7
+	src = strdup("-2147483651");
+	res1 = ft_atoi(src);
+	res2 = atoi(src);
+	if (res1 != res2)
+		return (7);
+
+	return (0);
+}
+
+static int	test_ft_isalpha(void)
+{
+	int		res1;
+	int		res2;
+
+	// Test 1
+	res1 = ft_isalpha('a');
+	res2 = isalpha('a');
+	if (res1 != res2)
+		return (1);
+
+	// Test 2
+	res1 = ft_isalpha('\0');
+	res2 = isalpha('\0');
+	if (res1 != res2)
+		return (2);
+
+	// Test 3
+	res1 = ft_isalpha('6');
+	res2 = isalpha('6');
+	if (res1 != res2)
+		return (3);
+
+	// Test 4
+	res1 = ft_isalpha(' ');
+	res2 = isalpha(' ');
+	if (res1 != res2)
+		return (4);
+
+	return (0);
+}
+
+static int	test_ft_isdigit(void)
+{
+	int	res1;
+	int	res2;
+
+	// Test 1
+	res1 = ft_isdigit(' ');
+	res2 = isdigit(' ');
+	if (res1 != res2)
+		return (1);
+
+	// Test 2
+	res1 = ft_isdigit('\n');
+	res2 = isdigit('\n');
+	if (res1 != res2)
+		return (2);
+
+	// Test 3
+	res1 = ft_isdigit('5');
+	res2 = isdigit('5');
+	if (res1 != res2)
+		return (3);
+	
+	// Test 4
+	res1 = ft_isdigit(EOF);
+	res2 = isdigit(EOF);
+	if (res1 != res2)
+		return (4);
+
+	// Test 5
+	res1 = ft_isdigit(-1);
+	res2 = isdigit(-1);
+	if (res1 != res2)
+		return (5);
+
+	// Test 6
+	res1 = ft_isdigit(529);
+	res2 = isdigit(529);
+	if (res1 != res2)
+		return (6);
+
+	return (0);
+}
+
+static int	test_ft_isalnum(void)
+{
+	int		res1;
+	int		res2;
+
+	// Test 1
+	res1 = ft_isalnum('a');
+	res2 = isalnum('a');
+	if (res1 != res2)
+		return (1);
+
+	// Test 2
+	res1 = ft_isalnum('\0');
+	res2 = isalnum('\0');
+	if (res1 != res2)
+		return (2);
+
+	// Test 3
+	res1 = ft_isalnum('6');
+	res2 = isalnum('6');
+	if (res1 != res2)
+		return (3);
+
+	// Test 4
+	res1 = ft_isalnum(' ');
+	res2 = isalnum(' ');
+	if (res1 != res2)
+		return (4);
+
+	// Test 5
+	res1 = ft_isalnum('@');
+	res2 = isalnum('@');
+	if (res1 != res2)
+		return (5);
+
+	return (0);
+}
+
+static int	test_ft_isascii(void)
+{
+	int	i;
+
+	// Test 1
+	i = -1;
+	while (i < 530)
+	{
+		if (ft_isascii(i) != isascii(i))
+			return (1);
+		i++;
+	}
+	
+	return (0);
+}
+
+static int	test_ft_isprint(void)
+{
+	int	i;
+
+	// Test 1
+	i = -1;
+	while (i < 530)
+	{
+		if (ft_isprint(i) != isprint(i))
+			return (1);
+		i++;
+	}
+	
+	return (0);
+}
+
+static int	test_ft_toupper(void)
+{
+	int i;
+
+	// Test 1
+	i = -1;
+	while (i < 530)
+	{
+		if (ft_toupper(i) != toupper(i))
+			return (1);
+		i++;
+	}
+	
+	return (0);
+}
+
+static int	test_ft_tolower(void)
+{
+	int i;
+
+	// Test 1
+	i = -1;
+	while (i < 530)
+	{
+		if (ft_tolower(i) != tolower(i))
+			return (1);
+		i++;
+	}
+	
+	return (0);
+}
+
+static int	test_ft_memalloc(void)
+{
+	unsigned char	*mem;
+	size_t	size;
+	size_t	i;
+
+	// Test 1;
+	i = 0;
+	mem = (unsigned char *)ft_memalloc(999);
+	while (i < size)
+	{
+		if (mem[i] != 0)
+			return (1);
+		i++;
+	}
+	free(mem);
+
+	return (0);
+}
+
+static int	test_ft_memdel(void)
+{
+	void	*mem;
+	
+	// Test 1
+	mem = malloc(99);
+	ft_memdel(&mem);
+	if (mem != NULL)
+		return (1);
+	
+	return (0);
+}
+
+static int	test_ft_strnew(void)
+{
+	int		i;
+	char	*str;
+
+	i = 0;
+	str = ft_strnew(100);
+	while (i < 100)
+	{
+		if (str[i] != '\0')
+			return (1);
+		i++;
+	}
+	free(str);
+
+	return (0);
+}
+
+static int	test_ft_strdel(void)
+{
+	char	*str;
+	
+	// Test 1
+	str = (char *)malloc(99);
+	memset(str, '$', 99);
+	ft_strdel(&str);
+	if (str != NULL)
+		return (1);
+
+	return (0);
+}
+
+static int	test_ft_strclr(void)
+{
+	int		i;
+	char	*str;
+
+	i = 0;
+	str = ft_strdup("coucou");
+	ft_strclr(str);
+	while (i < strlen(str) + 1)
+	{
+		if (str[i] != '\0')
+			return (1);
+		i++;
+	}
+	free(str);
+
+	return (0);
+}
+
+static void fptr_ft_striter(char *c)
+{
+	*c = '$';
+}
+
+static int	test_ft_striter(void)
+{
+	char	*str;
+
+	// Test 1
+	str = strdup("Coucou");
+	ft_striter(str, &fptr_ft_striter);
+	if (strcmp(str, "$$$$$$") != 0)
+		return (1);
+	free(str);
+
+	return (0);
+}
+
+static void fptr_ft_striteri(unsigned int i, char *c)
+{
+	if (i == 3)
+		*c = '3';
+	else
+		*c = '$';
+}
+
+static int	test_ft_striteri(void)
+{
+	char	*str;
+
+	// Test 1
+	str = strdup("Coucou");
+	ft_striteri(str, &fptr_ft_striteri);
+	if (strcmp(str, "$$$3$$") != 0)
+		return (1);
+	free(str);
+
+	return (0);
+}
+
+static char fptr_ft_strmap(char c)
+{
+	return toupper(c);
+}
+
+static int	test_ft_strmap(void)
+{
+	char	*str;
+	char	*res;
+
+	// Test 1
+	str = strdup("Coucou");
+	res = ft_strmap(str, &fptr_ft_strmap);
+	if (strcmp(str, "Coucou") != 0)
+		return (101);
+	if (strcmp(res, "COUCOU") != 0)
+		return (102);
+	free(str);
+	free(res);
+
+	return (0);
+}
+
+static char fptr_ft_strmapi(unsigned int i, char c)
+{
+	if (i == 3)
+		return '3';
+	else
+		return toupper(c);
+}
+
+static int	test_ft_strmapi(void)
+{
+	char	*str;
+	char	*res;
+
+	// Test 1
+	str = strdup("Coucou");
+	res = ft_strmapi(str, &fptr_ft_strmapi);
+	if (strcmp(str, "Coucou") != 0)
+		return (101);
+	if (strcmp(res, "COU3OU") != 0)
+		return (102);
+	free(str);
+	free(res);
+
+	return (0);
+}
+
+static int	test_ft_strequ(void)
+{
+	// Test 1
+	if (ft_strequ("coucou", "coucou") != 1)
+		return (1);
+
+	// Test 2
+	if (ft_strequ("abcx", "abc") != 0)
+		return (2);
+
+	// Test 3
+	if (ft_strequ("", "") != 1)
+		return (3);
+
+	return (0);
+}
+
+static int	test_ft_strnequ(void)
+{
+	// Test 1
+	if (ft_strnequ("coucou", "couxou", 3) != 1)
+		return (1);
+
+	// Test 2
+	if (ft_strnequ("abcx", "abc", 99) != 0)
+		return (2);
+
+	// Test 3
+	if (ft_strnequ("", "", 1) != 1)
+		return (3);
+
+	// Test 4
+	if (ft_strnequ("test", "test ", 5) != 0)
+		return (4);
+
+	return (0);
+}
+
+static int	test_ft_strsub(void)
+{
+	char	*res;
+
+	// Test 1
+	res = ft_strsub("Voici une grande chaine", 6, 3);
+	if (res == NULL)
+		return (101);
+	if (strcmp(res, "une") != 0)
+		return (102);
+	free(res);
+
+	// Test 2
+	res = ft_strsub("Encore une longue chaine", 0, 2);
+	if (res == NULL)
+		return (201);
+	if (strcmp(res, "En") != 0)
+		return (202);
+	free(res);
+
+	return (0);
+}
+
+static int	test_ft_strjoin(void)
+{
+	char	*res;
+
+	// Test 1
+	res = ft_strjoin("abc", "def");
+	if (strcmp(res, "abcdef") != 0)
+		return (1);
+	free(res);
+
+	// Test 2
+	res = ft_strjoin("voici une grande chaine", " qui deviens encore plus grande.");
+	if (strcmp(res, "voici une grande chaine qui deviens encore plus grande.") != 0)
+		return (2);
+
+	return (0);
+}
+
+static int	test_ft_strtrim(void)
+{
+	char	*res;
+
+	// Test 1
+	res = ft_strtrim("  coucou  ");
+	if (res == NULL)
+		return (101);
+	if (strcmp(res, "coucou") != 0)
+		return (102);
+	free(res);
+
+	// Test 2
+	res = ft_strtrim(" \t \n  hello");
+	if (res == NULL)
+		return (201);
+	if (strcmp(res, "hello") != 0)
+		return (202);
+	free(res);
+
+	// Test 3
+	res = ft_strtrim("salut");
+	if (res == NULL)
+		return (301);
+	if (strcmp(res, "salut") != 0)
+		return (302);
+	free(res);
+
+	// Test 4
+	res = ft_strtrim("plop \t \n    ");
+	if (res == NULL)
+		return (401);
+	if (strcmp(res, "plop") != 0)
+		return (402);
+	free(res);
+
+	// Test 5
+	res = ft_strtrim("");
+	if (res == NULL)
+		return (501);
+	if (strcmp(res, "") != 0)
+		return (502);
+	free(res);
+
+	// Test 6
+	res = ft_strtrim("\t    \n \n ");
+	if (strcmp(res, "") != 0)
+		return (6);
 
 	return (0);
 }
@@ -1090,8 +1677,100 @@ void	register_tests(void)
 	g_tests[i].f = &test_ft_strnstr;
 	i++;
 
+	g_tests[i].name = strdup("ft_strcmp");
+	g_tests[i].f = &test_ft_strcmp;
+	i++;
+
 	g_tests[i].name = strdup("ft_strncmp");
 	g_tests[i].f = &test_ft_strncmp;
+	i++;
+
+	g_tests[i].name = strdup("ft_atoi");
+	g_tests[i].f = &test_ft_atoi;
+	i++;
+
+	g_tests[i].name = strdup("ft_isalpha");
+	g_tests[i].f = &test_ft_isalpha;
+	i++;
+	
+	g_tests[i].name = strdup("ft_isdigit");
+	g_tests[i].f = &test_ft_isdigit;
+	i++;
+
+	g_tests[i].name = strdup("ft_isalnum");
+	g_tests[i].f = &test_ft_isalnum;
+	i++;
+
+	g_tests[i].name = strdup("ft_isascii");
+	g_tests[i].f = &test_ft_isascii;
+	i++;
+
+	g_tests[i].name = strdup("ft_isprint");
+	g_tests[i].f = &test_ft_isprint;
+	i++;
+	
+	g_tests[i].name = strdup("ft_toupper");
+	g_tests[i].f = &test_ft_toupper;
+	i++;
+
+	g_tests[i].name = strdup("ft_tolower");
+	g_tests[i].f = &test_ft_tolower;
+	i++;
+
+	g_tests[i].name = strdup("ft_memalloc");
+	g_tests[i].f = &test_ft_memalloc;
+	i++;
+
+	g_tests[i].name = strdup("ft_memdel");
+	g_tests[i].f = &test_ft_memdel;
+	i++;
+
+	g_tests[i].name = strdup("ft_strnew");
+	g_tests[i].f = &test_ft_strnew;
+	i++;
+
+	g_tests[i].name = strdup("ft_strdel");
+	g_tests[i].f = &test_ft_strdel;
+	i++;
+
+	g_tests[i].name = strdup("ft_strclr");
+	g_tests[i].f = &test_ft_strclr;
+	i++;
+
+	g_tests[i].name = strdup("ft_striter");
+	g_tests[i].f = &test_ft_striter;
+	i++;
+
+	g_tests[i].name = strdup("ft_striteri");
+	g_tests[i].f = &test_ft_striteri;
+	i++;
+
+	g_tests[i].name = strdup("ft_strmap");
+	g_tests[i].f = &test_ft_strmap;
+	i++;
+
+	g_tests[i].name = strdup("ft_strmapi");
+	g_tests[i].f = &test_ft_strmapi;
+	i++;
+
+	g_tests[i].name = strdup("ft_strequ");
+	g_tests[i].f = &test_ft_strequ;
+	i++;
+
+	g_tests[i].name = strdup("ft_strnequ");
+	g_tests[i].f = &test_ft_strnequ;
+	i++;
+
+	g_tests[i].name = strdup("ft_strsub");
+	g_tests[i].f = &test_ft_strsub;
+	i++;
+
+	g_tests[i].name = strdup("ft_strjoin");
+	g_tests[i].f = &test_ft_strjoin;
+	i++;
+
+	g_tests[i].name = strdup("ft_strtrim");
+	g_tests[i].f = &test_ft_strtrim;
 	i++;
 
 	g_tests[i].name = NULL;
