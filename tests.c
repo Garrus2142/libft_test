@@ -1599,6 +1599,175 @@ static int	test_ft_strtrim(void)
 	return (0);
 }
 
+static int	test_ft_strsplit(void)
+{
+	char	**res;
+	char	**cmp1;
+	int 	i;
+
+	// Test 1
+	i = 0;
+	res = ft_strsplit("*salut*les***etudiants*", '*');
+	if (res == NULL)
+		return (101);
+	while (res[i] != NULL)
+	{
+		if (i == 0 && strcmp(res[i], "salut") != 0)
+			return (102);
+		if (i == 1 && strcmp(res[i], "les") != 0)
+			return (103);
+		if (i == 2 && strcmp(res[i], "etudiants") != 0)
+			return (104);
+		free(res[i]);
+		i++;
+	}
+	if (i != 3)
+		return (105);
+	free(res);
+
+	// Test 2
+	i = 0;
+	res = ft_strsplit("salut tout le monde", '*');
+	if (res == NULL)
+		return (201);
+	while (res[i] != NULL)
+	{
+		if (i == 0 && strcmp(res[i], "salut tout le monde") != 0)
+			return (202);
+		free(res[i]);
+		i++;
+	}
+	if (i != 1)
+		return (203);
+	free(res);
+
+	// Test 3
+	i = 0;
+	res = ft_strsplit("", ' ');
+	if (res == NULL)
+		return (301);
+	while (res[i] != NULL)
+	{
+		free(res[i]);
+		i++;
+	}
+	if (i > 0)
+		return (302);
+	free(res);
+
+	// Test 4
+	i = 0;
+	res = ft_strsplit("*******", '*');
+	if (res == NULL)
+		return (401);
+	while (res[i] != NULL)
+	{
+		free(res[i]);
+		i++;
+	}
+	if (i > 0)
+		return (402);
+	free(res);
+
+	// Test 5
+	i = 0;
+	res = ft_strsplit("*salut*les***etudiants", '*');
+	if (res == NULL)
+		return (501);
+	while (res[i] != NULL)
+	{
+		if (i == 0 && strcmp(res[i], "salut") != 0)
+			return (502);
+		if (i == 1 && strcmp(res[i], "les") != 0)
+			return (503);
+		if (i == 2 && strcmp(res[i], "etudiants") != 0)
+			return (504);
+		free(res[i]);
+		i++;
+	}
+	if (i != 3)
+		return (505);
+	free(res);
+	
+	return (0);
+}
+
+static int	test_ft_itoa(void)
+{
+	char	*res;
+
+	// Test 1
+	res = ft_itoa(45836);
+	if (res == NULL)
+		return (101);
+	if (strcmp(res, "45836") != 0)
+		return (102);
+	free(res);
+
+	// Test 2
+	res = ft_itoa(-1182);
+	if (res == NULL)
+		return (201);
+	if (strcmp(res, "-1182") != 0)
+		return (202);
+	free(res);
+
+	// Test 3
+	res = ft_itoa(0);
+	if (res == NULL)
+		return (301);
+	if (strcmp(res, "0") != 0)
+		return (302);
+	free(res);
+
+	// Test 4
+	res = ft_itoa(2147483647);
+	if (res == NULL)
+		return (401);
+	if (strcmp(res, "2147483647") != 0)
+		return (402);
+	free(res);
+
+	// Test 5
+	res = ft_itoa(-2147483648);
+	if (res == NULL)
+		return (501);
+	if (strcmp(res, "-2147483648") != 0)
+		return (502);
+	free(res);
+
+	return (0);
+}
+
+static int	test_ft_lstnew(void)
+{
+	t_list	*list;
+
+	// Test 1;
+	list = ft_lstnew("coucou", 7);
+	if (list == NULL)
+		return (101);
+	if (list->content == NULL)
+		return (102);
+	if (list->content_size != 7)
+		return (103);
+	if (strcmp((char *)list->content, "coucou") != 0)
+		return (104);
+	free(list);
+
+	// Test 2
+	list = ft_lstnew(NULL, 5);
+	if (list == NULL)
+		return (201);
+	if (list->content != NULL)
+		return (202);
+	if (list->content_size != 0)
+		return (203);
+	free(list);
+
+	return (0);
+}
+
 void	register_tests(void)
 {
 	int i;
@@ -1771,6 +1940,22 @@ void	register_tests(void)
 
 	g_tests[i].name = strdup("ft_strtrim");
 	g_tests[i].f = &test_ft_strtrim;
+	i++;
+
+	g_tests[i].name = strdup("ft_strsplit");
+	g_tests[i].f = &test_ft_strsplit;
+	i++;
+
+	g_tests[i].name = strdup("ft_itoa");
+	g_tests[i].f = &test_ft_itoa;
+	i++;
+
+	g_tests[i].name = strdup("ft_itoa");
+	g_tests[i].f = &test_ft_itoa;
+	i++;
+
+	g_tests[i].name = strdup("ft_lstnew");
+	g_tests[i].f = &test_ft_lstnew;
 	i++;
 
 	g_tests[i].name = NULL;
