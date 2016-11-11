@@ -218,8 +218,8 @@ static int		test_ft_memccpy(void)
 	if (strcmp(strd1, strd2) != 0)
 		return (401);
 	if (res1 == NULL && res2 != NULL)
-	if (res1 != NULL && res2 != NULL && res1[0] != res2[0])
-		return (402);
+		if (res1 != NULL && res2 != NULL && res1[0] != res2[0])
+			return (402);
 	if ((res1 == NULL && res2 != NULL) || (res1 != NULL && res2 == NULL))
 		return (403);
 	free(strd1);
@@ -262,7 +262,7 @@ static int		test_ft_memmove(void)
 	if ((res1 == NULL && res2 != NULL) || (res1 != NULL && res2 == NULL))
 		return (102);
 	if (res1 != NULL && res2 != NULL && res1[0] != res2[0])
-	   return (103);
+		return (103);
 	free(strd1);
 	free(strd2);
 
@@ -276,7 +276,7 @@ static int		test_ft_memmove(void)
 	if ((res1 == NULL && res2 != NULL) || (res1 != NULL && res2 == NULL))
 		return (202);
 	if (res1 != NULL && res2 != NULL && res1[0] != res2[0])
-	   return (203);
+		return (203);
 	free(strd1);
 	free(strd2);
 
@@ -290,7 +290,7 @@ static int		test_ft_memmove(void)
 	if ((res1 == NULL && res2 != NULL) || (res1 != NULL && res2 == NULL))
 		return (302);
 	if (res1 != NULL && res2 != NULL && res1[0] != res2[0])
-	   return (303);
+		return (303);
 	free(strd1);
 	free(strd2);
 
@@ -304,7 +304,7 @@ static int		test_ft_memmove(void)
 	if ((res1 == NULL && res2 != NULL) || (res1 != NULL && res2 == NULL))
 		return (402);
 	if (res1 != NULL && res2 != NULL && res1[0] != res2[0])
-	   return (403);
+		return (403);
 	free(strd1);
 	free(strd2);
 
@@ -318,7 +318,7 @@ static int		test_ft_memmove(void)
 	if ((res1 == NULL && res2 != NULL) || (res1 != NULL && res2 == NULL))
 		return (502);
 	if (res1 != NULL && res2 != NULL && res1[0] != res2[0])
-	   return (503);
+		return (503);
 	free(strd1);
 	free(strd2);
 
@@ -1170,7 +1170,7 @@ static int	test_ft_isdigit(void)
 	res2 = isdigit('5');
 	if (res1 != res2)
 		return (3);
-	
+
 	// Test 4
 	res1 = ft_isdigit(EOF);
 	res2 = isdigit(EOF);
@@ -1242,7 +1242,7 @@ static int	test_ft_isascii(void)
 			return (1);
 		i++;
 	}
-	
+
 	return (0);
 }
 
@@ -1258,7 +1258,7 @@ static int	test_ft_isprint(void)
 			return (1);
 		i++;
 	}
-	
+
 	return (0);
 }
 
@@ -1274,7 +1274,7 @@ static int	test_ft_toupper(void)
 			return (1);
 		i++;
 	}
-	
+
 	return (0);
 }
 
@@ -1290,7 +1290,7 @@ static int	test_ft_tolower(void)
 			return (1);
 		i++;
 	}
-	
+
 	return (0);
 }
 
@@ -1317,13 +1317,13 @@ static int	test_ft_memalloc(void)
 static int	test_ft_memdel(void)
 {
 	void	*mem;
-	
+
 	// Test 1
 	mem = malloc(99);
 	ft_memdel(&mem);
 	if (mem != NULL)
 		return (1);
-	
+
 	return (0);
 }
 
@@ -1348,7 +1348,7 @@ static int	test_ft_strnew(void)
 static int	test_ft_strdel(void)
 {
 	char	*str;
-	
+
 	// Test 1
 	str = (char *)malloc(99);
 	memset(str, '$', 99);
@@ -1688,7 +1688,7 @@ static int	test_ft_strsplit(void)
 	if (i != 3)
 		return (505);
 	free(res);
-	
+
 	return (0);
 }
 
@@ -1765,6 +1765,133 @@ static int	test_ft_lstnew(void)
 		return (203);
 	free(list);
 
+	return (0);
+}
+
+static void	fptr_ft_lstdelone(void *content, size_t size)
+{
+	free(content);
+	(void)size;
+}
+
+static int	test_ft_lstdelone(void)
+{
+	t_list	*list;
+
+	// Test 1
+	list = (t_list *)malloc(sizeof(t_list));
+	list->content = strdup("Coucou");
+	list->content_size = 7;
+	list->next = NULL;
+	ft_lstdelone(&list, &fptr_ft_lstdelone);
+	if (list != NULL)
+		return (1);
+
+	return (0);
+}
+
+static int	test_ft_lstdel(void)
+{
+	t_list	*l1;
+	t_list	*l2;
+
+	l1 = ft_lstnew(strdup("Coucou1"), 8);
+	l2 = ft_lstnew(strdup("Coucou2"), 8);
+	l1->next = l2;
+	
+	ft_lstdel(&l1, &fptr_ft_lstdelone);
+	if (l1 != NULL)
+		return (101);
+
+	return (0);
+}
+
+static int	test_ft_lstadd(void)
+{
+	t_list		*l1;
+	t_list		*l2;
+
+	l1 = ft_lstnew("Coucou1", 8);
+	l2 = ft_lstnew("Coucou2", 8);
+	ft_lstadd(&l1, l2);
+	if (l1 == NULL)
+		return (101);
+	if (strcmp(l1->content, "Coucou2") != 0)
+		return (102);
+	ft_lstdel(&l1, &fptr_ft_lstdelone);
+	return (0);
+}
+
+static void	fptr_ft_lstiter(t_list *elem)
+{
+	char * content = (char *)elem->content;
+	content[1] = '$';
+}
+
+static int	test_ft_lstiter(void)
+{
+	t_list		*l1;
+	char		*content1;
+	char		*content2;
+	char		*content3;
+
+	l1 = ft_lstnew("Coucou1", 8);
+	ft_lstadd(&l1, ft_lstnew("Coucou2", 8));
+	ft_lstadd(&l1, ft_lstnew("Coucou3", 8));
+	if (l1 == NULL)
+		return (101);
+	if (l1->next == NULL)
+		return (102);
+	if (l1->next->next == NULL)
+		return (103);
+	if (l1->next->next->next != NULL)
+		return (104);
+	content1 = (char *)l1->content;
+	content2 = (char *)l1->next->content;
+	content3 = (char *)l1->next->next->content;
+	if (strcmp(content1, "Coucou3") != 0)
+		return (105);
+	if (strcmp(content2, "Coucou2") != 0)
+		return (106);
+	if (strcmp(content3, "Coucou1") != 0)
+		return (107);
+	ft_lstdel(&l1, &fptr_ft_lstdelone);
+
+	return (0);	
+}
+
+static t_list	*fptr_ft_lstmap(t_list *elem)
+{
+	return (ft_lstnew(elem->content, elem->content_size));
+}
+
+static int	test_ft_lstmap(void)
+{
+	t_list	*l;
+	t_list	*new;
+	char	*c1;
+	char	*c2;
+	char	*c3;
+
+	l = ft_lstnew("Coucou1", 8);
+	l->next = ft_lstnew("Coucou2", 8);
+	l->next->next = ft_lstnew("Coucou3", 8);
+	new = ft_lstmap(l, &fptr_ft_lstmap);
+	if (new == NULL)
+		return (101);
+	if (new->next == NULL)
+		return (102);
+	if (new->next->next == NULL)
+		return (103);
+	c1 = new->content;
+	c2 = new->next->content;
+	c3 = new->next->next->content;
+	if (strcmp(c1, "Coucou1") != 0)
+		return (104);
+	if (strcmp(c2, "Coucou2") != 0)
+		return (105);
+	if (strcmp(c3, "Coucou3") != 0)
+		return (106);
 	return (0);
 }
 
@@ -1861,7 +1988,7 @@ void	register_tests(void)
 	g_tests[i].name = strdup("ft_isalpha");
 	g_tests[i].f = &test_ft_isalpha;
 	i++;
-	
+
 	g_tests[i].name = strdup("ft_isdigit");
 	g_tests[i].f = &test_ft_isdigit;
 	i++;
@@ -1877,7 +2004,7 @@ void	register_tests(void)
 	g_tests[i].name = strdup("ft_isprint");
 	g_tests[i].f = &test_ft_isprint;
 	i++;
-	
+
 	g_tests[i].name = strdup("ft_toupper");
 	g_tests[i].f = &test_ft_toupper;
 	i++;
@@ -1950,12 +2077,28 @@ void	register_tests(void)
 	g_tests[i].f = &test_ft_itoa;
 	i++;
 
-	g_tests[i].name = strdup("ft_itoa");
-	g_tests[i].f = &test_ft_itoa;
-	i++;
-
 	g_tests[i].name = strdup("ft_lstnew");
 	g_tests[i].f = &test_ft_lstnew;
+	i++;
+
+	g_tests[i].name = strdup("ft_lstdelone");
+	g_tests[i].f = &test_ft_lstdelone;
+	i++;
+
+	g_tests[i].name = strdup("ft_lstdel");
+	g_tests[i].f = &test_ft_lstdel;
+	i++;
+
+	g_tests[i].name = strdup("ft_lstadd");
+	g_tests[i].f = &test_ft_lstadd;
+	i++;
+
+	g_tests[i].name = strdup("ft_lstiter");
+	g_tests[i].f = &test_ft_lstiter;
+	i++;
+
+	g_tests[i].name = strdup("ft_lstmap");
+	g_tests[i].f = &test_ft_lstmap;
 	i++;
 
 	g_tests[i].name = NULL;
@@ -1967,7 +2110,7 @@ void	exec_test(int index)
 	char	*name;
 
 	name = g_tests[index].name;
-	
+
 	printf("%s - ", name);
 
 	res = g_tests[index].f();
