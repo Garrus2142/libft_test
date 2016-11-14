@@ -5,7 +5,7 @@
 #include <limits.h>
 #include "tests.h"
 #include "constants.h"
-#include "../libft-github/libft.h"
+#include "../libft/libft.h"
 
 static tests g_tests[100];
 
