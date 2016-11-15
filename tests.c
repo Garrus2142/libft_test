@@ -991,6 +991,16 @@ static int	test_ft_strcmp(void)
 	free(str1);
 	free(str2);
 
+	// Test 4
+	str1 = strdup("abc");
+	str2 = strdup("abce");
+	res1 = ft_strcmp(str1, str2);
+	res2 = strcmp(str1, str2);
+	if (res1 != res2)
+		return (4);
+	free(str1);
+	free(str2);
+
 	return (0);
 }
 
