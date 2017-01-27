@@ -1,4 +1,4 @@
-LIBFT_SRC = ../libft/*.c
+LIBFT_SRC = ../thugo/*.c
 TEST_SRC = main.c tests.c
 NAME = libtest
 

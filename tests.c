@@ -5,7 +5,7 @@
 #include <limits.h>
 #include "tests.h"
 #include "constants.h"
-#include "../libft/libft.h"
+#include "../thugo/libft.h"
 
 static tests g_tests[100];
 
@@ -1697,6 +1697,29 @@ static int	test_ft_strsplit(void)
 	}
 	if (i != 3)
 		return (505);
+	free(res);
+
+
+	// Test 6
+	i = 0;
+	res = ft_strsplit("*salut*les***etudiants, kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk endofchaine jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj", ' ');
+	if (res == NULL)
+		return (601);
+	while (res[i] != NULL)
+	{
+		if (i == 0 && strcmp(res[i], "*salut*les***etudiants,") != 0)
+			return (602);
+		if (i == 1 && strcmp(res[i], "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk") != 0)
+			return (603);
+		if (i == 2 && strcmp(res[i], "endofchaine") != 0)
+			return (604);
+		if (i == 3 && strcmp(res[i], "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj") != 0)
+			return (605);
+		free(res[i]);
+		i++;
+	}
+	if (i != 4)
+		return (606);
 	free(res);
 
 	return (0);
